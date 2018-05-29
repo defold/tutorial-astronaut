@@ -1,0 +1,25 @@
+animations {
+  id: "idle"
+  images {
+    image: "/assets/astronaut/idle_01.png"
+  }
+  images {
+    image: "/assets/astronaut/idle_02.png"
+  }
+  images {
+    image: "/assets/astronaut/idle_03.png"
+  }
+  images {
+    image: "/assets/astronaut/idle_04.png"
+  }
+  images {
+    image: "/assets/astronaut/idle_05.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 10
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 0
+inner_padding: 0

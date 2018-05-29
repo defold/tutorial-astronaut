@@ -1,0 +1,13 @@
+[bootstrap]
+main_collection = /main/main.collectionc
+
+[script]
+shared_state = 1
+
+[project]
+title = Astronaut walking
+
+[display]
+width = 1280
+height = 768
+
