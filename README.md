@@ -6,7 +6,7 @@ This tutorial project comes preset with all assets that you need. Start by [runn
 
 ## The building blocks of a Defold game
 
-Open ["main.collection"](defold://open?path=/main/main.collection) (locate the file in the *Assets* pane to the left and double click it.)
+Open ["/main/main.collection"](defold://open?path=/main/main.collection) (locate the file in the *Assets* pane to the left and double click it.)
 
 <img src="doc/main_collection.png" srcset="doc/main_collection@2x.png 2x">
 
