@@ -132,7 +132,7 @@ end
 1. Actions defined in the input binding file are sent in the `action_id` parameter. If the user presses the "front" or "back" button, set the Y component of the movement direction vector.
 2. If the user presses the "left" or "right" button, set the X component of the movement direction vector.
 
-Note that if the player presses "front" and "left" at the same time, two calls will be donen to `on_input()` and both the X and Y components of the direction vector will be altered.
+Note that if the player presses "front" and "left" at the same time, two calls will be done to `on_input()` and both the X and Y components of the direction vector will be altered.
 
 Third, change the content of the `update()` function:
 
