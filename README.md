@@ -98,7 +98,7 @@ Remember that the astronaut game object has a *Script* component based on the fi
 `on_reload(self)`
 : This function is called whenever the current script component is *hot-reloaded* into a running game. This is very useful to inspect or manipulate the state of a game object at reload to test things or do debugging.
 
-## Programmming the astronaut movement
+## Programming the astronaut movement
 
 You are now ready to write a bit of Lua code to play the animations and to make the astronaut game object move. First, change the content of the `init()` function to the following:
 
