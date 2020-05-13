@@ -29,7 +29,7 @@ Looking at the "main.collection" file, the editor shows the visual content of th
 
 1. The astronaut game object which has *Id* "astronaut". It contains a *Sprite* component and a *Script* component. The game object has been added to the main collection from a blueprint game object file named "/main/astronaut.go".
 
-2. The background level game object which has *Id* "level". It contains a *Tilemap* component. This game object has been embedded directly in the collection file so there is no separate file. The tilemap component, however, source its tilemap data from a separate file named "/main/level.tilemap".
+2. The background level game object which has *Id* "level". It contains a *Tilemap* component. This game object has been embedded directly in the collection file so there is no separate file. The tilemap component, however, sources its tilemap data from a separate file named "/main/level.tilemap".
 
 There is no difference between game objects embedded directly in a collection or ones that are based on blueprint files. If a game object exists in only one instance, there is no real advantage to using a blueprint file, but if you want to create many copies of the same object, blueprint files are extremely convenient since they allow you to change all instances at once. In the *Outline* pane the name of the file an object or component is created from is written in italics next to the object id.
 
