@@ -87,7 +87,7 @@ Remember that the astronaut game object has a *Script* component based on the fi
 : This function is called when the component is being removed: when the game object is deleted or right before the engine shuts down your game.
 
 `update(self, dt)`
-: This function is called once each frame. It is useful for doing manipulations and calculations that need to happen it real-time. You will use this function to move the game object based on input.
+: This function is called once each frame. It is useful for doing manipulations and calculations that need to happen in real-time. You will use this function to move the game object based on input.
 
 `on_message(self, message_id, message, sender)`
 : This function is called each time a message is sent to the script component. Message passing is a central feature of Defold but we are not doing any in this tutorial.
