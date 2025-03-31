@@ -191,7 +191,7 @@ function update(self, dt)
     end
 
     if anim ~= self.current_anim then                          -- [3]
-        msg.post("#sprite", "play_animation", { id = anim })   -- [4]
+        sprite.play_flipbook("#sprite", anim)                  -- [4]
         self.current_anim = anim                               -- [5]
     end
 
@@ -252,7 +252,7 @@ function update(self, dt)
     end
 
     if anim ~= self.current_anim then
-        msg.post("#sprite", "play_animation", { id = anim })
+        sprite.play_flipbook("#sprite", anim)
         self.current_anim = anim
     end
 
