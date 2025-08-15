@@ -2,7 +2,7 @@
 
 In this beginner's tutorial you will learn how to capture player input and make a character move and animate. Along the way you will get an introduction to the core building blocks in Defold: game objects, components and collections.
 
-This tutorial project comes preset with all assets that you need. Start by [running the game](defold://build) (<kbd>Project ▸ Build</kbd>) to get a feel for what's in here.
+This tutorial project comes preset with all assets that you need. Start by [running the game](defold://project.build) (<kbd>Project ▸ Build</kbd>) to get a feel for what's in here.
 
 ## The building blocks of a Defold game
 
@@ -50,7 +50,7 @@ Click the sprite component to select it. The *Properties* view in the lower righ
 *Default Animation*
 : This property indicates which particular image or animation in the image resource should be used. Here, the property is set to the "idle" animation.
 
-[Run the game again](defold://build). Notice that the astronaut sprite is looping through an idle animation. Let's now have a look at how that animation is set up.
+[Run the game again](defold://project.build). Notice that the astronaut sprite is looping through an idle animation. Let's now have a look at how that animation is set up.
 
 ## Atlas animations
 
@@ -151,7 +151,7 @@ end
 3. Set the position of the current game object to the old position plus the direction vector scaled with the speed constant and `dt`. Multiplying with `dt` makes the movement velocity independent of the update frequency.
 4. Reset the direction vector since it is set each frame in `on_input`.
 
-[Run the game again](defold://build) and verify that movement works as expected. The astronaut should move in all 8 directions.
+[Run the game again](defold://project.build) and verify that movement works as expected. The astronaut should move in all 8 directions.
 
 ## Adding animations to the movement
 
@@ -208,7 +208,7 @@ end
 
 The test against the current animation is required, otherwise the code would restart the same animation over and over again each frame. Also note that there are no separate diagonal walk animations but the code uses "left" and "right" for the diagonals.
 
-[Run the game again](defold://build) and verify that the astronaut moves and animates correctly.
+[Run the game again](defold://project.build) and verify that the astronaut moves and animates correctly.
 
 **Congratulations! You have now finished this tutorial. We hope that you found it instructive.**
 
