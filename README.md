@@ -60,7 +60,7 @@ Open the file ["/main/astronaut.atlas"](defold://open?path=/main/astronaut.atlas
 
 An *Animation Group* is a list of images that are played in a specified order at a specified playback speed. There is currently only one animation group present. It's called "idle" and consists of five separate images. Select the "idle" animation in the outline and choose <kbd>View ▸ Play</kbd> from the menu to preview the animation. You may have to select <kbd>View ▸ Frame Selection</kbd> to zoom the editor camera to cover the whole atlas.
 
-To start adding the walk animations to the astronaut, <kbd>right click</kbd> the root of the atlas outline and select <kbd>Add Animation Group</kbd>.
+To start adding the walk animations to the astronaut, <kbd>right click</kbd> the root of the atlas outline and select <kbd>Add Animation</kbd>.
 
 <img src="doc/add_animation.png" srcset="doc/add_animation@2x.png 2x">
 
@@ -72,7 +72,7 @@ Type "left" in the top filter text field to see only images with the name "left"
 
 <img src="doc/select_images.png" srcset="doc/select_images@2x.png 2x">
 
-The new animation has 6 images in it. Select <kbd>View ▸ Play</kbd> from the menu to preview the animation. The speed of the animation is too high so reduce the *Fps* (frames per second) property of the "left" animation from 60 to 15.
+The new animation has 6 images in it. Select <kbd>View ▸ Play</kbd> from the menu to preview the animation. The speed of the animation is too high so reduce the *Fps* (frames per second) property of the "left" animation from 30 to 15.
 
 Repeat these last steps and add animations for walking "right", "front" and "back" to the atlas in the same way as you added the "left" animation.
 
