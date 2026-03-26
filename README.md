@@ -5,12 +5,12 @@ Welcome to the tutorial about character movement suited for beginners starting g
 ## What you'll learn?
 
 - Building Blocks: How collections, game objects, and components relate to each other
-- Animations: How to new add animation groups to an atlas
+- Animations: How to add new animation groups to an atlas
 - Input: How to capture key presses in a script, and add new bindings
 - Logic: How to move a game object using vectors and `dt`, and switch animations based on movement direction
 - Camera: How to follow character and zoom
 
-This is a short tutorial, might take about 15 minutes to complete, but you can stay and play around with it more.
+This is a short tutorial, it will take about 15 minutes to complete, but you can stay and play around with it more.
 
 ## Before you start
 
@@ -52,17 +52,17 @@ A few core terms will appear throughout the tutorial:
 
 <img src="doc/3.png">
 
-So `main.collection` is a file with all the game objects, that are spawned into the game's world. The components are part of game objects. You can see on the right site, in the <kbd>Outline</kbd> pane the root "Collection" and the tree-like structure of what's in it.
+So `main.collection` is a file with all the game objects, that are spawned into the game's world. The components are part of game objects. You can see on the right side, in the <kbd>Outline</kbd> pane the root "Collection" and the tree-like structure of what's in it.
 
 In this collection there are 3 game objects:
 
 1. <kbd>`camera`</kbd>, an embedded game object with camera component to see the game's world
-2. <kbd>`character`</kbd>, created from the blueprint file ["/main/character.go"](defold://open?path=/main/character.go).
+2. <kbd>`character`</kbd>, created from the prototype file (also known as "prefab" or "blueprint" in other engines) ["/main/character.go"](defold://open?path=/main/character.go).
 3. <kbd>`level`</kbd>, an embedded game object with a tilemap component that uses ["/main/level.tilemap"](defold://open?path=/main/level.tilemap).
 
 <img src="doc/4.png">
 
-Using a blueprint file such as `character.go` makes an object reusable. Embedded objects (like the `camera` or `level`) are fine when you only need a single instance. You can read more about [Basic Building Blocks of Defold here](https://defold.com/manuals/building-blocks/).
+Using a prototype file such as `character.go` makes an object reusable. Embedded objects (like the `camera` or `level`) are fine when you only need a single instance. You can read more about [Basic Building Blocks of Defold here](https://defold.com/manuals/building-blocks/).
 
 ## Inspect the character
 
@@ -80,7 +80,7 @@ Select the sprite component in the `Outline` and look at its properties:
 - `Image` points to ["/main/character.atlas"](defold://open?path=/main/character.atlas)
 - `Default Animation` is set to `idle`
 
-The sprite already knows how to play the idle animation. You can preview it by clicking the <kbd>Space</kbd>, when it's selected in the Outline.
+The sprite already knows how to play the idle animation. You can preview it by pressing the <kbd>Space</kbd> key, when it's selected in the Outline.
 
 But we want the character to move, so we will add the walk animations that the script can switch between.
 
@@ -88,7 +88,7 @@ But we want the character to move, so we will add the walk animations that the s
 
 Open ["/main/character.atlas"](defold://open?path=/main/character.atlas).
 
-An atlas stores separate images and animations. Right now it only contains the `idle` animation - you can select it in the `Outline` and preview with <kbd>View</kbd> ▸ <kbd>Play</kbd> or by clicking <kbd>Space</kbd>.
+An atlas stores separate images and animations. Right now it only contains the `idle` animation - you can select it in the `Outline` and preview with <kbd>View</kbd> ▸ <kbd>Play</kbd> or by pressing <kbd>Space</kbd> key.
 
 
 1. Right click the root of the <kbd>Atlas<kbd> outline and choose <kbd>Add Animation</kbd> (or shortcut<kbd>A</kbd>).
@@ -102,7 +102,7 @@ An atlas stores separate images and animations. Right now it only contains the `
 
 <img src="doc/7.png">
 
-6. You can notice that when you preview the animation (with <kbd>Space</kbd>) it's too fast, so, while holding <kbd>Shift</kbd> select all of the new animations added in the `Outline` and in the `Properties` pane set the <kbd>FPS</kbd> property to <kbd>15</kbd>.
+6. You can notice that when you preview the animation (with <kbd>Space</kbd>) key it's too fast, so, while holding <kbd>Shift</kbd> select all of the new animations added in the `Outline` and in the `Properties` pane set the <kbd>FPS</kbd> property to <kbd>15</kbd>.
 
 <img src="doc/8.png">
 
@@ -112,11 +112,11 @@ At the end of the steps in the tutorial, don't forget to save everything. Select
 
 If the atlas is zoomed out too far, use <kbd>View</kbd> ▸ <kbd>Frame Selection</kbd> (shortcut <kbd>F</kbd>) or scroll to adjust the zooom.
 
-At this point the atlas contains every animation the astronaut needs, but the script still only plays `idle`.
+At this point the atlas contains every animation the character needs, but the script still only plays `idle`.
 
 ## Open the movement script
 
-Open ["/main/astronaut.script"](defold://open?path=/main/astronaut.script).
+Open ["/main/character.script"](defold://open?path=/main/character.script).
 You can get back to our character game object and double-click on the character script, or open it using learned methods.
 
 The script will be opened in a built-in code editor, and it includes already the standard script template with empty lifecycle functions. For this tutorial you only need three callbacks:
@@ -177,7 +177,7 @@ function on_input(self, action_id, action)
 end
 ```
 
-We simply compare here the current <kbd>action_id</kbd> with each of the ones defined in input bindings as <kbd>`actions`</kbd> and modify the <kbd>`direction`</kbd> vector. Each active input action updates one part of the direction vector. If two keys are held at the same time, both axes can be set, which gives diagonal movement.
+We simply compare here the current <kbd>action_id</kbd> with each of the ones defined in input bindings as <kbd>`actions`</kbd> and modify the <kbd>`direction`</kbd> vector. Each active input action updates one part of the direction vector. If two keys are held at the same time, both axis can be set, which gives diagonal movement.
 
 ### Move the game object every frame
 
@@ -233,7 +233,7 @@ Play with the speed value to adjust the speed of the movement of the character t
 
 ## Play the correct animation
 
-The astronaut moves now, but the sprite still stays in the <kbd>`idle`</kbd> animation.
+The character moves now, but the sprite still stays in the <kbd>`idle`</kbd> animation.
 
 To fix it add at the end of our <kbd>`update()`</kbd> function, after setting the position, but just before reseting the direction, this fragment:
 
