@@ -1,0 +1,29 @@
+animations {
+  id: "idle"
+  images {
+    image: "/assets/character/idle/idle_down_1.png"
+  }
+  images {
+    image: "/assets/character/idle/idle_down_2.png"
+  }
+  images {
+    image: "/assets/character/idle/idle_down_3.png"
+  }
+  images {
+    image: "/assets/character/idle/idle_down_4.png"
+  }
+  images {
+    image: "/assets/character/idle/idle_down_5.png"
+  }
+  images {
+    image: "/assets/character/idle/idle_down_6.png"
+  }
+  images {
+    image: "/assets/character/idle/idle_down_7.png"
+  }
+  images {
+    image: "/assets/character/idle/idle_down_8.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 15
+}

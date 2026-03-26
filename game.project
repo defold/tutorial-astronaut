@@ -5,9 +5,19 @@ main_collection = /main/main.collectionc
 shared_state = 1
 
 [project]
-title = Astronaut walking
+title = Top Down Movement Tutorial
+developer = Defold Foundation
 
 [display]
 width = 1280
 height = 768
+
+[graphics]
+default_texture_min_filter = nearest
+default_texture_mag_filter = nearest
+
+[render]
+clear_color_red = 0.445313
+clear_color_green = 0.457031
+clear_color_blue = 0.105469
 
