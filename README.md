@@ -1,277 +1,401 @@
-# Walking astronaut tutorial
+# Character movement tutorial
 
-In this beginner's tutorial you will learn how to capture player input and make a character move and animate. Along the way you will get an introduction to the core building blocks in Defold: game objects, components and collections.
+Welcome to the tutorial about character movement suited for beginners starting game development with Defold. You will start from a prepared project and make the stationary character move in all directions. The knowledge gathered here might be useful in both 2D and 3D top-down view games. 
 
-This tutorial project comes preset with all assets that you need. Start by [running the game](defold://project.build) (<kbd>Project ▸ Build</kbd>) to get a feel for what's in here.
+## What you'll learn?
 
-## The building blocks of a Defold game
+- Building Blocks: How collections, game objects, and components relate to each other
+- Animations: How to add new animation groups to an atlas
+- Input: How to capture key presses in a script, and add new bindings
+- Logic: How to move a game object using vectors and `dt`, and switch animations based on movement direction
+- Camera: How to follow character and zoom
 
-Open ["/main/main.collection"](defold://open?path=/main/main.collection) (locate the file in the *Assets* pane to the left and double click it.)
+This is a short tutorial, it will take about 15 minutes to complete, but you can stay and play around with it more.
 
-<img src="doc/main_collection.png" srcset="doc/main_collection@2x.png 2x">
+## Before you start
 
-What you see in the editor is a *Collection* file. When the Defold engine starts, it loads a *bootstrap collection* as specified in the "game.project" settings file. This particular collection file is this project's bootstrap collection, which is why you see the content of it when you run the game. This collection contains two *Game Objects*. And these two game objects each contain *Components*:
+This tutorial requires no prior knowledge, but in order not to get lost inside the Defold Editor, check out the [Editor overview](https://defold.com/manuals/editor/) before.
 
-<img src="doc/building_blocks.png" srcset="doc/building_blocks@2x.png 2x">
+This project already contains everything you need:
 
-*COLLECTION*
-: Collection files contain game objects and other collections (sub-collections). You organize your game objects by adding them to collection files. You use collections to build small things like a player character or a boss, and you use them to build big things like whole levels.
+- character art and an atlas with an `idle` animation
+- a background tilemap
+- input bindings for `left`, `right`, `up`, and `down` key arrows on keyboard
 
-*GAME OBJECT*
-: Game objects hold sprites, sounds, 3D models, tiles or scripts (programmed behavior). A game object has position, rotation and scale. You can write script code that manipulate these properties while the game is running. A typical game object is a bullet, a pickup object or a level loader.
+## Try the game
 
-*COMPONENT*
-: Components are the things that are drawn on screen, make sounds or make interactions happen. Components do not exist on their own but are placed inside game objects. Some components have properties that can be manipulated in runtime and most components can be turned on and off (enabled and disabled). Many component types source their content from separate resource files, like atlas image files, sound files, animation files etc.
+Before beginning the tutorial, [build and run the project](defold://project.build) (<- by clicking this link) or use <kbd>Project</kbd> ▸ <kbd>Build</kbd> in the top menu or shortcut <kbd>Ctrl</kbd>+<kbd>B</kbd> (<kbd>Cmd</kbd>+<kbd>B</kbd> on Mac).
 
-## What's in the main.collection file?
+You should see a tiled background and a character staying in the middle of the screen. That is the starting point. Close the game.
 
-Looking at the "main.collection" file, the editor shows the visual content of the collection in the center editor view. In the right hand *Outline* pane, the collection content is presented as a tree structure. There are two game objects in the collection:
+<img src="doc/1.png">
 
-1. The astronaut game object which has *Id* "astronaut". It contains a *Sprite* component and a *Script* component. The game object has been added to the main collection from a blueprint game object file named "/main/astronaut.go".
+## Get familiar with the project
 
-2. The background level game object which has *Id* "level". It contains a *Tilemap* component. This game object has been embedded directly in the collection file so there is no separate file. The tilemap component, however, sources its tilemap data from a separate file named "/main/level.tilemap".
+Open the ["/main/main.collection"](defold://open?path=/main/main.collection) - you can click here or click <kbd>Project</kbd> ▸ <kbd>Open</kbd> in the top menu or shortcut <kbd>Ctrl</kbd>+<kbd>P</kbd> (<kbd>Cmd</kbd>+<kbd>P</kbd> on Mac). This will open a popup where you can start typing the name of the file, you're looking for, so type "main" and double-click on the `main.collection` in the list (or select it and click <kbd>Open</kbd> button).
 
-There is no difference between game objects embedded directly in a collection or ones that are based on blueprint files. If a game object exists in only one instance, there is no real advantage to using a blueprint file, but if you want to create many copies of the same object, blueprint files are extremely convenient since they allow you to change all instances at once. In the *Outline* pane the name of the file an object or component is created from is written in italics next to the object id.
+It will be opened in the main editor pane.
 
-## The astronaut game object
+This is the **bootstrap** collection referenced from the project setting file: ["/game.project"](defold://open?path=/game.project). Defold loads it when the game starts.
 
-Open ["/main/astronaut.go"](defold://open?path=/main/astronaut.go) to view the blueprint file that is used to create the astronaut instance in "main.collection". As with a collection, the editor shows the game object's content in the center editor view and the *Outline* view to the right shows the structure. This game object file consists of two components:
+<img src="doc/2.png">
 
-1. A *Script* component, based on the script file "/main/astronaut.script".
-2. A *Sprite* component, which is embedded in place in the game object file.
+Tip: The tutorial works best, if the `README.md` file is opened inside the Defold editor, because the links in this document can open files directly in Defold and build the project for you. You can also split the view in half, by right-clicking on a tab and selecting <kbd>Move to Other Tab Pane</kbd>.
 
-<img src="doc/astronaut_go.png" srcset="doc/astronaut_go@2x.png 2x">
+<img src="doc/side-by-side.png">
 
-Click the sprite component to select it. The *Properties* view in the lower right corner now lists all properties that are associated with the sprite component. The sprite has its own *Id*, *Position* and *Rotation* properties. These are all relative to the game object that harbours the component. There are also properties that dictate what image or animation the sprite should display:
+A few core terms will appear throughout the tutorial:
 
-*Image*
-: This property points to an image resource that is used as a source for the sprite's graphics. Image resources are *Atlas* or *Tilesource* files. *Atlas* files are collections of separate images that have been baked into a larger image for efficiency. Here, the property is set to the file "/main/astronaut.atlas".
+- <kbd>`Collection`</kbd>: a container for game objects and sub-collections.
+- <kbd>`Game object`</kbd>: a plain simple object with transform (position, rotation, scale) that can hold components.
+- <kbd>`Component`</kbd>: a piece of behavior or data such as a sprite, tilemap, or script.
 
-*Default Animation*
-: This property indicates which particular image or animation in the image resource should be used. Here, the property is set to the "idle" animation.
+<img src="doc/3.png">
 
-[Run the game again](defold://project.build). Notice that the astronaut sprite is looping through an idle animation. Let's now have a look at how that animation is set up.
+So `main.collection` is a file with all the game objects, that are spawned into the game's world. The components are part of game objects. You can see on the right side, in the <kbd>Outline</kbd> pane the root "Collection" and the tree-like structure of what's in it.
 
-## Atlas animations
+In this collection there are 3 game objects:
 
-Open the file ["/main/astronaut.atlas"](defold://open?path=/main/astronaut.atlas). The editor view in the center shows each image that has been added to the atlas. The *Outline* view shows all the images and how animations are organized.
+1. <kbd>`camera`</kbd>, an embedded game object with camera component to see the game's world
+2. <kbd>`character`</kbd>, created from the prototype file (also known as "prefab" or "blueprint" in other engines) ["/main/character.go"](defold://open?path=/main/character.go).
+3. <kbd>`level`</kbd>, an embedded game object with a tilemap component that uses ["/main/level.tilemap"](defold://open?path=/main/level.tilemap).
 
-<img src="doc/astronaut_atlas.png" srcset="doc/astronaut_atlas@2x.png 2x">
+<img src="doc/4.png">
 
-An *Animation Group* is a list of images that are played in a specified order at a specified playback speed. There is currently only one animation group present. It's called "idle" and consists of five separate images. Select the "idle" animation in the outline and choose <kbd>View ▸ Play</kbd> from the menu to preview the animation. You may have to select <kbd>View ▸ Frame Selection</kbd> to zoom the editor camera to cover the whole atlas.
+Using a prototype file such as `character.go` makes an object reusable. Embedded objects (like the `camera` or `level`) are fine when you only need a single instance. You can read more about [Basic Building Blocks of Defold here](https://defold.com/manuals/building-blocks/).
 
-To start adding the walk animations to the astronaut, <kbd>right click</kbd> the root of the atlas outline and select <kbd>Add Animation</kbd>.
+## Inspect the character
 
-<img src="doc/add_animation.png" srcset="doc/add_animation@2x.png 2x">
+Open ["/main/character.go"](defold://open?path=/main/character.go) - by clicking here, or double-clicking on it in the `Outline`, or right-clicking on it and select <kbd>Open</kbd>, or using shortcut <kbd>Ctrl</kbd>+<kbd>O</kbd> (<kbd>Cmd</kbd>+<kbd>O</kbd> on Mac), when it's selected in the `Outline`.
 
-Click the new animation group (named "New Animation") and give it the *Id* "left". Then <kbd>right click</kbd> the animation group and select <kbd>Add Images...</kbd>
+This game object contains:
 
-<img src="doc/add_images.png" srcset="doc/add_images@2x.png 2x">
+- <kbd>`character`</kbd> - a script component referencing the file ["/main/character.script"](defold://open?path=/main/character.script)
+- <kbd>`sprite`</kbd> - an embedded sprite component with our character visuals
 
-Type "left" in the top filter text field to see only images with the name "left" in them. Select all the images that appear (hold <kbd>Shift</kbd> and click) and confirm with <kbd>OK</kbd>.
+<img src="doc/5.png">
 
-<img src="doc/select_images.png" srcset="doc/select_images@2x.png 2x">
+Select the sprite component in the `Outline` and look at its properties:
 
-The new animation has 6 images in it. Select <kbd>View ▸ Play</kbd> from the menu to preview the animation. The speed of the animation is too high so reduce the *Fps* (frames per second) property of the "left" animation from 30 to 15.
+- `Image` points to ["/main/character.atlas"](defold://open?path=/main/character.atlas)
+- `Default Animation` is set to `idle`
 
-Repeat these last steps and add animations for walking "right", "front" and "back" to the atlas in the same way as you added the "left" animation.
+The sprite already knows how to play the idle animation. You can preview it by pressing the <kbd>Space</kbd> key, when it's selected in the Outline.
 
-## The astronaut script component
+But we want the character to move, so we will add the walk animations that the script can switch between.
 
-Remember that the astronaut game object has a *Script* component based on the file "/main/astronaut.script"? Open ["/main/astronaut.script"](defold://open?path=/main/astronaut.script) to view the Lua script file. As you can see, the script file contains a set of empty functions. These are the *lifetime functions* of the astronaut:
+## Add the walk animations
 
-`init(self)`
-: This function is called when the component is initialized, before anything appears on the screen. You will use this function to set a few things up.
+Open ["/main/character.atlas"](defold://open?path=/main/character.atlas).
 
-`final(self)`
-: This function is called when the component is being removed: when the game object is deleted or right before the engine shuts down your game.
+An atlas stores separate images and animations. Right now it only contains the `idle` animation - you can select it in the `Outline` and preview with <kbd>View</kbd> ▸ <kbd>Play</kbd> or by pressing <kbd>Space</kbd> key.
 
-`update(self, dt)`
-: This function is called once each frame. It is useful for doing manipulations and calculations that need to happen in real-time. You will use this function to move the game object based on input.
 
-`on_message(self, message_id, message, sender)`
-: This function is called each time a message is sent to the script component. Message passing is a central feature of Defold but we are not doing any in this tutorial.
+1. Right click the root of the <kbd>Atlas<kbd> outline and choose <kbd>Add Animation</kbd> (or shortcut<kbd>A</kbd>).
+2. Rename the new animation group to <kbd>`left`<kbd> - type it in the <kbd>Properties</kbd> pane in the <kbd>Id</kbd> field, or right-click and select <kbd>Rename</kbd> (shortcut <kbd>F2</kbd>) to edit its name in the Outline directly.
 
-`on_input(self, action_id, action)`
-: This function is called each time an input action is sent to the script component. Input actions are defined in the file ["/input/game.input_binding"](defold://open?path=/input/game.input_binding). This project has bindings already set up for the arrow buttons: "left", "right", "front" and "back" and you will use this function to react to input.
+<img src="doc/6.png">
 
-`on_reload(self)`
-: This function is called whenever the current script component is *hot-reloaded* into a running game. This is very useful to inspect or manipulate the state of a game object at reload to test things or do debugging.
+3. Right click the `left` animation and choose <kbd>Add Images...</kbd>.
+4. Filter for `left`, select all 8 matching images from `run_left_1` to `run_left_8`, and confirm.
+5. Repeat the same process (steps 1-4) for `right`, `front`, and `back`.
 
-## Programming the astronaut movement
+<img src="doc/7.png">
 
-You are now ready to write a bit of Lua code to play the animations and to make the astronaut game object move. First, change the content of the `init()` function to the following:
+6. You can notice that when you preview the animation (with <kbd>Space</kbd>) key it's too fast, so, while holding <kbd>Shift</kbd> select all of the new animations added in the `Outline` and in the `Properties` pane set the <kbd>FPS</kbd> property to <kbd>15</kbd>.
+
+<img src="doc/8.png">
+
+## Saving changes
+
+At the end of the steps in the tutorial, don't forget to save everything. Select <kbd>File</kbd> ▸ <kbd>Save All</kbd> in the top menu or shortcut <kbd>Ctrl</kbd>+<kbd>S</kbd> (<kbd>Cmd</kbd>+<kbd>S</kbd> on Mac)
+
+If the atlas is zoomed out too far, use <kbd>View</kbd> ▸ <kbd>Frame Selection</kbd> (shortcut <kbd>F</kbd>) or scroll to adjust the zooom.
+
+At this point the atlas contains every animation the character needs, but the script still only plays `idle`.
+
+## Open the movement script
+
+Open ["/main/character.script"](defold://open?path=/main/character.script).
+You can get back to our character game object and double-click on the character script, or open it using learned methods.
+
+The script will be opened in a built-in code editor, and it includes already the standard script template with empty lifecycle functions. For this tutorial you only need three callbacks:
+
+- `init(self)` runs when the component is created
+- `update(self, dt)` runs every frame
+- `on_input(self, action_id, action)` receives input actions
+
+So remove the rest.
+
+<img src="doc/9.png">
+
+## Initialize the script
+
+Inside the <kbd>`init()`</kbd> function we will initialize needed data and acquire input focus, so write:
 
 ```lua
-local speed = 150                                             -- [1]
-
 function init(self)
-    msg.post(".", "acquire_input_focus")                      -- [2]
-    self.dir = vmath.vector3()                                -- [3]
+	self.direction = vmath.vector3()        -- a vector of direction
+	self.current_animation = hash("idle")   -- initial animation
+	msg.post(".", "acquire_input_focus")    -- acquiring input focus
 end
 ```
-1. Define a local variable (constant) that holds the movement speed (in pixels/s).
-2. Send a built in engine message to the current game object (".") telling it to listen to input.
-3. Define a variable that is part of the current script component instance (`self`). The variable will hold the movement direction, expressed as a vector. It is initially zero.
 
-Second, change the content of the `on_input()` function:
+As you can see, here we have a very simple variables initialization. The <kbd>`self`</kbd> is an instance table that we have available in all lifecycle functions, so inside it we define <kbd>`direction`</kbd> as an empty 3-dimensional vector, and <kbd>`current_animation`</kbd> as our <kbd>`idle`</kbd> animation, but Defold doesn't operates on strings for animations, so we need to make it hashed.
+
+Then we post a message to our current game object (shorthand <kbd>`"."`</kbd>) to <kbd>`acquire_input_focus`</kbd>, meaning, we will now get inputs in <kbd>`on_input`</kbd>.
+
+## Input bindings
+
+Input bindings are already prepared in ["/input/game.input_binding"](defold://open?path=/input/game.input_binding). The four actions you will use are:
+
+- `left`
+- `right`
+- `up`
+- `down`
+
+And those are assigned to the arrow keys. You can look at this, but it's optional now, all is already set up.
+
+<img src="doc/10.png">
+
+## Make the character move
+
+Now, in our <kbd>`on_input()`</kbd> function write simple `if-else` branches:
 
 ```lua
 function on_input(self, action_id, action)
-    if action_id == hash("front") then                        -- [1]
-        self.dir.y = -1
-    elseif action_id == hash("back") then
-        self.dir.y = 1
-    elseif action_id == hash("left") then                     -- [2]
-        self.dir.x = -1
-    elseif action_id == hash("right") then
-        self.dir.x = 1
-    end
+	-- Change the direction vector based on current inputs:
+	if action_id == hash("up") then
+		self.direction.y = -1
+	elseif action_id == hash("down") then
+		self.direction.y = 1
+	elseif action_id == hash("left") then
+		self.direction.x = -1
+	elseif action_id == hash("right") then
+		self.direction.x = 1
+	end
 end
 ```
-1. Actions defined in the input binding file are sent in the `action_id` parameter. If the user presses the "front" or "back" button, set the Y component of the movement direction vector.
-2. If the user presses the "left" or "right" button, set the X component of the movement direction vector.
 
-Note that if the player presses "front" and "left" at the same time, two calls will be done to `on_input()` and both the X and Y components of the direction vector will be altered.
+We simply compare here the current <kbd>action_id</kbd> with each of the ones defined in input bindings as <kbd>`actions`</kbd> and modify the <kbd>`direction`</kbd> vector. Each active input action updates one part of the direction vector. If two keys are held at the same time, both axis can be set, which gives diagonal movement.
 
-Third, change the content of the `update()` function:
+### Move the game object every frame
+
+And finally in the `update()` function write:
 
 ```lua
 function update(self, dt)
-    if vmath.length_sqr(self.dir) > 1 then                   -- [1]
-        self.dir = vmath.normalize(self.dir)
-    end
-    local p = go.get_position()                              -- [2]
-    go.set_position(p + self.dir * speed * dt)               -- [3]
-    self.dir = vmath.vector3()                               -- [4]
+	-- Get current position of the game object:
+	local current_position = go.get_position()
+
+	-- Add to it a direction vector multiplied by speed and delta time:
+	local new_position = current_position + self.direction * 150 * dt
+
+	-- Set the new position to the game object:
+	go.set_position(new_position)
+
+	-- Reset the direction 
+	self.direction = vmath.vector3()
 end
 ```
-1. When the `update()` function is called, the engine has already processed all input, meaning that the direction vector is set. In the case of diagonal movement, the length of the movement vector is greater than 1. Normalizing the direction vector makes it length 1 and diagonal movement will have the same speed as horizontal and vertical movement.
-2. Get the position of the current game object. The name `go` *does not* refer to the current game object. It is the name of the Lua module that contains all game object functions.
-3. Set the position of the current game object to the old position plus the direction vector scaled with the speed constant and `dt`. Multiplying with `dt` makes the movement velocity independent of the update frequency.
-4. Reset the direction vector since it is set each frame in `on_input`.
 
-[Run the game again](defold://project.build) and verify that movement works as expected. The astronaut should move in all 8 directions.
+Comments in the code should explain what we are doing here, so read them carefully. We calculate the new position based on the simple physics movement formula, by taking our current direction vector, that we modify by our inputs, multiplying it by 150, which is the speed value, and then by delta time, which is an amount of a time that passed since last frame update.
 
-## Adding animations to the movement
+You can save it, [build and run the project](defold://project.build).
 
-The final piece of the puzzle is to change the animation that is played depending on the movement direction. For that, you have to first add a variable that holds the current animation:
+You are now able to move around, but beside lacking animations, the movement, while holding two keys to move diagonally is too fast, because the direction is not normalized. To fix it, add on the top of our current update function, this code fragment:
 
 ```lua
-function init(self)
-    msg.post(".", "acquire_input_focus")
-    self.dir = vmath.vector3()
-    self.current_anim = nil                                  -- [1]
-end
+	if vmath.length_sqr(self.direction) > 1 then
+		self.direction = vmath.normalize(self.direction)
+	end
 ```
-1. Store the currently running animation.
 
-Then you need to add code in `update()` that changes animation based on direction:
+Save and [test the project](defold://project.build).
+
+The diagonal movement is now normalized, so it is not faster than straight movement.
+
+The `150` in the update function is a speed value - such paramaters are good to be defined in the top of the file as local variables:
 
 ```lua
-function update(self, dt)
-    if vmath.length_sqr(self.dir) > 1 then
-        self.dir = vmath.normalize(self.dir)
-    end
-    local p = go.get_position()
-    go.set_position(p + self.dir * speed * dt)
-
-    -- animate the astronaut
-
-    local anim = hash("idle")                                  -- [1]
-
-    if self.dir.x > 0 then                                     -- [2]
-        anim = hash("right")
-    elseif self.dir.x < 0 then
-        anim = hash("left")
-    elseif self.dir.y > 0 then
-        anim = hash("back")
-    elseif self.dir.y < 0 then
-        anim = hash("front")
-    end
-
-    if anim ~= self.current_anim then                          -- [3]
-        sprite.play_flipbook("#sprite", anim)                  -- [4]
-        self.current_anim = anim                               -- [5]
-    end
-
-    -- done animating
-
-    self.dir = vmath.vector3()
-end
+local speed = 150
 ```
-1. Local variable that starts with the default animation id. With no input, this is the animation you get.
-2. Test against the movement direction and set the `anim` variable depending on the value of the X and Y component in the direction vector.
-3. If `anim` is different than the current animation:
-4. then play the new animation,
-5. then set the current animation id to the id in `anim`.
 
-The test against the current animation is required, otherwise the code would restart the same animation over and over again each frame. Also note that there are no separate diagonal walk animations but the code uses "left" and "right" for the diagonals.
+and then used in script:
 
-[Run the game again](defold://project.build) and verify that the astronaut moves and animates correctly.
+```lua
+	local new_position = current_position + self.direction * speed * dt
+```
 
-**Congratulations! You have now finished this tutorial. We hope that you found it instructive.**
+so that you can change them, save it, and Hot Reload the running game, to see the change instantly applied. Read more about [Hot Reloading here](https://defold.com/manuals/hot-reload/).
 
-Check out the [documentation pages](https://defold.com/learn) for more examples, tutorials, manuals and API docs.
+Play with the speed value to adjust the speed of the movement of the character to its animation.
 
-If you run into trouble, help is available in [our forum](https://forum.defold.com).
+## Play the correct animation
 
-Happy Defolding!
+The character moves now, but the sprite still stays in the <kbd>`idle`</kbd> animation.
 
+To fix it add at the end of our <kbd>`update()`</kbd> function, after setting the position, but just before reseting the direction, this fragment:
 
-## The complete movement script
+```lua
+	-- Initialize a local variable to decide which animation we should play:
+	local animation = hash("idle")
+
+	-- Depending on the direction vector change it to a proper animation:
+	if self.direction.x > 0 then
+		animation = hash("right")
+	elseif self.direction.x < 0 then
+		animation = hash("left")
+	elseif self.direction.y > 0 then
+		animation = hash("up")
+	elseif self.direction.y < 0 then
+		animation = hash("down")
+	end
+
+	-- If the animation we decided to play is different from the current one playing:
+	if animation ~= self.current_animation then
+		-- Play the new animation:
+		sprite.play_flipbook("#sprite", animation)
+		-- and update the variable tracking the current animation:
+		self.current_animation = animation
+	end
+```
+
+Read the comments to understand what the code does. Because we track the currently played animation, the `sprite.play_flipbook()` is only called when the animation changes, so the same animation does not restart every frame. Diagonal movement uses `left` or `right`, simply because those checks run before the vertical ones. If no input is being pressed, it gets back to the default `idle` animation.
+
+[Build and run the project](defold://project.build) again. The character should now both move and animate correctly.
+
+## Limiting the movement space
+
+You'll quickly notice, that we can "stand" on the decorations, like rocks or walls in the tilemap, and we can even move out of the map! You could fix this by checking collisions, and setting up the walls and obstacles collision shapes, but that's for the other tutorial! Right now, let's simply limit the movement, by adding those two lines just before setting the new position in the update loop:
+
+```lua
+	-- Limit the position inside a rectangle:
+	new_position.x = math.max(100, math.min(570, new_position.x))
+	new_position.y = math.max(55, math.min(300, new_position.y))
+```
+
+This is enough to have a rectangle area for movement of our character.
+And that's the end of the tutorial!
+
+<img src="doc/game.png">
+
+## Final script
+
+Here's how your final version of the script should look like:
 
 ```lua
 local speed = 150
 
 function init(self)
-    msg.post(".", "acquire_input_focus")
-    self.dir = vmath.vector3()
-    self.current_anim = nil
+	self.direction = vmath.vector3()		-- a vector of direction
+	self.current_animation = hash("idle")	-- initial animation
+	msg.post(".", "acquire_input_focus")	-- acquiring input focus
 end
 
 function update(self, dt)
-    if vmath.length_sqr(self.dir) > 1 then
-        self.dir = vmath.normalize(self.dir)
-    end
-    local p = go.get_position()
-    go.set_position(p + self.dir * speed * dt)
+	if vmath.length_sqr(self.direction) > 1 then
+		self.direction = vmath.normalize(self.direction)
+	end
+	-- Get current position of the game object:
+	local current_position = go.get_position()
 
-    -- animate the astronaut
+	-- Add to it a direction vector multiplied by speed and delta time:
+	local new_position = current_position + self.direction * speed * dt
 
-    local anim = hash("idle")
+	-- Limit the position inside a rectangle:
+	new_position.x = math.max(100, math.min(570, new_position.x))
+	new_position.y = math.max(55, math.min(300, new_position.y))
 
-    if self.dir.x > 0 then
-        anim = hash("right")
-    elseif self.dir.x < 0 then
-        anim = hash("left")
-    elseif self.dir.y > 0 then
-        anim = hash("back")
-    elseif self.dir.y < 0 then
-        anim = hash("front")
-    end
+	-- Set the new position to the game object:
+	go.set_position(new_position)
 
-    if anim ~= self.current_anim then
-        sprite.play_flipbook("#sprite", anim)
-        self.current_anim = anim
-    end
+	-- Initialize a local variable to decide which animation we should play:
+	local animation = hash("idle")
 
-    -- done animating
-    
-    self.dir = vmath.vector3()
+	-- Depending on the direction vector change it to a proper animation:
+	if self.direction.x > 0 then
+		animation = hash("right")
+	elseif self.direction.x < 0 then
+		animation = hash("left")
+	elseif self.direction.y > 0 then
+		animation = hash("up")
+	elseif self.direction.y < 0 then
+		animation = hash("down")
+	end
+
+	-- If the animation we decided to play is different from the current one playing:
+	if animation ~= self.current_animation then
+		-- Play the new animation:
+		sprite.play_flipbook("#sprite", animation)
+		-- and update the variable tracking the current animation:
+		self.current_animation = animation
+	end
+
+	-- Reset the direction 
+	self.direction = vmath.vector3()
 end
 
 function on_input(self, action_id, action)
-    if action_id == hash("front") then
-        self.dir.y = -1
-    elseif action_id == hash("back") then
-        self.dir.y = 1
-    elseif action_id == hash("left") then
-        self.dir.x = -1
-    elseif action_id == hash("right") then
-        self.dir.x = 1
-    end
+	-- Change the direction vector based on current inputs:
+	if action_id == hash("down") then
+		self.direction.y = -1
+	elseif action_id == hash("up") then
+		self.direction.y = 1
+	elseif action_id == hash("left") then
+		self.direction.x = -1
+	elseif action_id == hash("right") then
+		self.direction.x = 1
+	end
 end
 ```
 
----
+Also, you can checkout to the `tutorial-done` branch to see the final version of the game from this tutorial.
+
+And that's the end of the tutorial!
+
+## Excercises
+
+You can try the following excersises next:
+
+### Camera follows the character
+
+Make the camera follow the character with a quick trick:
+
+1. Open the ["main.collection"](defold://open?path=/main/main.collection).
+2. In the `Outline` drag and drop the <kbd>camera</kbd> game object beneath the <kbd>character</kbd> game object.
+
+This creates a parent-child relationship. Because camera was set to be in the (320,190,0) position in the world, it's now also like this, but related to the `character` position, so modify the position of the `camera` to (0,0,0).
+
+<img src="doc/camera.png">
+
+Try the game - now camera strictly follows our character!
+
+### Add WSAD controls
+
+Optionally, if you would like also to control your character with the commonly used `WSAD` keys, define this in the input bindings:
+
+1. Open ["/input/game.input_binding"](defold://open?path=/input/game.input_binding).
+2. Add the new bindings in this table - click <kbd>`+`</kbd> icon to add a new binding.
+3. Click in the <kbd>Input</kbd> column, type <kbd>`W`</kbd> key to find this input
+4. Type <kbd>`up`</kbd> in the <kbd>Action</kbd> column.
+
+Then repeat it for the rest of the keys. Make sure the action names matches the ones defined already, as we will be using those in the code. Read more about [inputs here](https://defold.com/manuals/input/).
+
+### Enlarge the level
+
+You now have a small, but working top down game. Try to expand the level by modifying the ["/main/level.tilemap"](defold://open?path=/main/level.tilemap)! Read more about [tilemaps here](https://defold.com/manuals/tilemap/). 
+
+## What's next?
+
+If you have a game, now you'd usually want to add GUI and switch between levels - try the [Colorslide tutorial](https://defold.com/tutorials/colorslide/) next!
+
+Then you can get back to this and apply the gathered knowledge to add more levels!
+
+For more tutorials and manuals, visit [defold.com/learn](https://defold.com/learn). If you get stuck, ask for help on the [Defold forum](https://forum.defold.com).
+
+## Credits
+
+This project uses the following free art assets:
+- Pixel Art Adventurer 2D Top-Down by Mattz Art: [https://xzany.itch.io/top-down-adventurer-character](https://xzany.itch.io/top-down-adventurer-character)
+- Pixel Art Top Down Basic tilesets by Cainos: [https://cainos.itch.io/pixel-art-top-down-basic](https://cainos.itch.io/pixel-art-top-down-basic)
