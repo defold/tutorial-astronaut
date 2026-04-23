@@ -77,7 +77,7 @@ This game object contains:
 
 Select the sprite component in the `Outline` and look at its properties:
 
-- `Image` points to ["/main/character.atlas"](defold://open?path=/main/character.atlas)
+- `Image` points to ["/assets/character/character.atlas"](defold://open?path=/assets/character/character.atlas)
 - `Default Animation` is set to `idle`
 
 The sprite already knows how to play the idle animation. You can preview it by pressing the <kbd>Space</kbd> key, when it's selected in the Outline.
@@ -86,19 +86,19 @@ But we want the character to move, so we will add the walk animations that the s
 
 ## Add the walk animations
 
-Open ["/main/character.atlas"](defold://open?path=/main/character.atlas).
+Open ["/assets/character/character.atlas"](defold://open?path=/assets/character/character.atlas).
 
 An atlas stores separate images and animations. Right now it only contains the `idle` animation - you can select it in the `Outline` and preview with <kbd>View</kbd> ▸ <kbd>Play</kbd> or by pressing <kbd>Space</kbd> key.
 
 
-1. Right click the root of the <kbd>Atlas<kbd> outline and choose <kbd>Add Animation</kbd> (or shortcut<kbd>A</kbd>).
-2. Rename the new animation group to <kbd>`left`<kbd> - type it in the <kbd>Properties</kbd> pane in the <kbd>Id</kbd> field, or right-click and select <kbd>Rename</kbd> (shortcut <kbd>F2</kbd>) to edit its name in the Outline directly.
+1. Right click the root of the <kbd>Atlas</kbd> outline and choose <kbd>Add Animation</kbd> (or shortcut<kbd>A</kbd>).
+2. Rename the new animation group to <kbd>`left`</kbd> - type it in the <kbd>Properties</kbd> pane in the <kbd>Id</kbd> field, or right-click and select <kbd>Rename</kbd> (shortcut <kbd>F2</kbd>) to edit its name in the Outline directly.
 
 <img src="doc/6.png">
 
 3. Right click the `left` animation and choose <kbd>Add Images...</kbd>.
 4. Filter for `left`, select all 8 matching images from `run_left_1` to `run_left_8`, and confirm.
-5. Repeat the same process (steps 1-4) for `right`, `front`, and `back`.
+5. Repeat the same process (steps 1-4) for `right`, `up`, and `down`.
 
 <img src="doc/7.png">
 
@@ -166,9 +166,9 @@ Now, in our <kbd>`on_input()`</kbd> function write simple `if-else` branches:
 function on_input(self, action_id, action)
 	-- Change the direction vector based on current inputs:
 	if action_id == hash("up") then
-		self.direction.y = -1
-	elseif action_id == hash("down") then
 		self.direction.y = 1
+	elseif action_id == hash("down") then
+		self.direction.y = -1
 	elseif action_id == hash("left") then
 		self.direction.x = -1
 	elseif action_id == hash("right") then
@@ -365,7 +365,7 @@ Make the camera follow the character with a quick trick:
 1. Open the ["main.collection"](defold://open?path=/main/main.collection).
 2. In the `Outline` drag and drop the <kbd>camera</kbd> game object beneath the <kbd>character</kbd> game object.
 
-This creates a parent-child relationship. Because camera was set to be in the (320,190,0) position in the world, it's now also like this, but related to the `character` position, so modify the position of the `camera` to (0,0,0).
+This creates a parent-child relationship. Because camera was set to be in the (320,190,10) position in the world, it's now also like this, but related to the `character` position, so modify the position of the `camera` to (0,0,10).
 
 <img src="doc/camera.png">
 
@@ -384,7 +384,7 @@ Then repeat it for the rest of the keys. Make sure the action names matches the 
 
 ### Enlarge the level
 
-You now have a small, but working top down game. Try to expand the level by modifying the ["/main/level.tilemap"](defold://open?path=/main/level.tilemap)! Read more about [tilemaps here](https://defold.com/manuals/tilemap/). 
+You now have a small, but working top down game. Try to expand the level by modifying the ["/assets/tiles/level.tilemap"](defold://open?path=/assets/tiles/level.tilemap)! Read more about [tilemaps here](https://defold.com/manuals/tilemap/). 
 
 ## What's next?
 
