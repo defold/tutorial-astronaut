@@ -1,10 +1,10 @@
 key_trigger {
   input: KEY_DOWN
-  action: "front"
+  action: "down"
 }
 key_trigger {
   input: KEY_UP
-  action: "back"
+  action: "up"
 }
 key_trigger {
   input: KEY_LEFT
