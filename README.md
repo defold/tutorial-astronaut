@@ -8,13 +8,13 @@ Welcome to the tutorial about character movement suited for beginners starting g
 - Animations: How to add new animation groups to an atlas
 - Input: How to capture key presses in a script, and add new bindings
 - Logic: How to move a game object using vectors and `dt`, and switch animations based on movement direction
-- Camera: How to follow character and zoom
+- Camera: How to follow the character and zoom
 
 This is a short tutorial, it will take about 15 minutes to complete, but you can stay and play around with it more.
 
 ## Before you start
 
-This tutorial requires no prior knowledge, but in order not to get lost inside the Defold Editor, check out the [Editor overview](https://defold.com/manuals/editor/) before.
+This tutorial requires no prior knowledge, but to avoid getting lost inside the Defold Editor, check out the [Editor overview](https://defold.com/manuals/editor/).
 
 This project already contains everything you need:
 
@@ -32,7 +32,7 @@ You should see a tiled background and a character staying in the middle of the s
 
 ## Get familiar with the project
 
-Open the ["/main/main.collection"](defold://open?path=/main/main.collection) - you can click here or click <kbd>Project</kbd> ▸ <kbd>Open</kbd> in the top menu or shortcut <kbd>Ctrl</kbd>+<kbd>P</kbd> (<kbd>Cmd</kbd>+<kbd>P</kbd> on Mac). This will open a popup where you can start typing the name of the file, you're looking for, so type "main" and double-click on the `main.collection` in the list (or select it and click <kbd>Open</kbd> button).
+Open the ["/main/main.collection"](defold://open?path=/main/main.collection) - you can click here or click <kbd>Project</kbd> ▸ <kbd>Open</kbd> in the top menu or shortcut <kbd>Ctrl</kbd>+<kbd>P</kbd> (<kbd>Cmd</kbd>+<kbd>P</kbd> on Mac). This will open a popup where you can start typing the name of the file you're looking for. Type "main" and double-click on the `main.collection` in the list (or select it and click the <kbd>Open</kbd> button).
 
 It will be opened in the main editor pane.
 
@@ -52,11 +52,11 @@ A few core terms will appear throughout the tutorial:
 
 <img src="doc/3.png">
 
-So `main.collection` is a file with all the game objects, that are spawned into the game's world. The components are part of game objects. You can see on the right side, in the <kbd>Outline</kbd> pane the root "Collection" and the tree-like structure of what's in it.
+So `main.collection` is a file with all the game objects that are spawned into the game's world. The components are part of game objects. You can see on the right side, in the <kbd>Outline</kbd> pane the root "Collection" and the tree-like structure of what's in it.
 
 In this collection there are 3 game objects:
 
-1. <kbd>`camera`</kbd>, an embedded game object with camera component to see the game's world
+1. <kbd>`camera`</kbd>, an embedded game object with a camera component to see the game's world
 2. <kbd>`character`</kbd>, created from the prototype file (also known as "prefab" or "blueprint" in other engines) ["/main/character.go"](defold://open?path=/main/character.go).
 3. <kbd>`level`</kbd>, an embedded game object with a tilemap component that uses ["/main/level.tilemap"](defold://open?path=/main/level.tilemap).
 
@@ -66,7 +66,7 @@ Using a prototype file such as `character.go` makes an object reusable. Embedded
 
 ## Inspect the character
 
-Open ["/main/character.go"](defold://open?path=/main/character.go) - by clicking here, or double-clicking on it in the `Outline`, or right-clicking on it and select <kbd>Open</kbd>, or using shortcut <kbd>Ctrl</kbd>+<kbd>O</kbd> (<kbd>Cmd</kbd>+<kbd>O</kbd> on Mac), when it's selected in the `Outline`.
+Open ["/main/character.go"](defold://open?path=/main/character.go) - by clicking here, or double-clicking on it in the `Outline`, or right-clicking on it and select <kbd>Open</kbd>, or using shortcut <kbd>Ctrl</kbd>+<kbd>O</kbd> (<kbd>Cmd</kbd>+<kbd>O</kbd> on Mac) when it's selected in the `Outline`.
 
 This game object contains:
 
@@ -88,7 +88,7 @@ But we want the character to move, so we will add the walk animations that the s
 
 Open ["/assets/character/character.atlas"](defold://open?path=/assets/character/character.atlas).
 
-An atlas stores separate images and animations. Right now it only contains the `idle` animation - you can select it in the `Outline` and preview with <kbd>View</kbd> ▸ <kbd>Play</kbd> or by pressing <kbd>Space</kbd> key.
+An atlas stores separate images and animations. Right now it only contains the `idle` animation - you can select it in the `Outline` and preview with <kbd>View</kbd> ▸ <kbd>Play</kbd> or by pressing the <kbd>Space</kbd> key.
 
 
 1. Right click the root of the <kbd>Atlas</kbd> outline and choose <kbd>Add Animation</kbd> (or shortcut<kbd>A</kbd>).
@@ -102,7 +102,7 @@ An atlas stores separate images and animations. Right now it only contains the `
 
 <img src="doc/7.png">
 
-6. You can notice that when you preview the animation (with <kbd>Space</kbd>) key it's too fast, so, while holding <kbd>Shift</kbd> select all of the new animations added in the `Outline` and in the `Properties` pane set the <kbd>FPS</kbd> property to <kbd>15</kbd>.
+6. You'll notice that when you preview the animation (with the <kbd>Space</kbd>) key, it's too fast. We can fix this by holding <kbd>Shift</kbd> and selecting all of the new animations added in the `Outline` and in the `Properties` pane, and setting the <kbd>FPS</kbd> property to <kbd>15</kbd>.
 
 <img src="doc/8.png">
 
@@ -110,28 +110,27 @@ An atlas stores separate images and animations. Right now it only contains the `
 
 At the end of the steps in the tutorial, don't forget to save everything. Select <kbd>File</kbd> ▸ <kbd>Save All</kbd> in the top menu or shortcut <kbd>Ctrl</kbd>+<kbd>S</kbd> (<kbd>Cmd</kbd>+<kbd>S</kbd> on Mac)
 
-If the atlas is zoomed out too far, use <kbd>View</kbd> ▸ <kbd>Frame Selection</kbd> (shortcut <kbd>F</kbd>) or scroll to adjust the zooom.
+If the atlas is zoomed out too far, use <kbd>View</kbd> ▸ <kbd>Frame Selection</kbd> (shortcut <kbd>F</kbd>) or scroll to adjust the zoom.
 
 At this point the atlas contains every animation the character needs, but the script still only plays `idle`.
 
 ## Open the movement script
 
-Open ["/main/character.script"](defold://open?path=/main/character.script).
-You can get back to our character game object and double-click on the character script, or open it using learned methods.
+Let's navigate back to our character game object and double-click on the attached script ["/main/character.script"](defold://open?path=/main/character.script) to open it.
 
-The script will be opened in a built-in code editor, and it includes already the standard script template with empty lifecycle functions. For this tutorial you only need three callbacks:
+The script will either open in a built-in code editor, or in an external editor if you have pre-configured one. The script contains a boilerplate template with empty lifecycle functions. For this tutorial, you only need three callbacks:
 
 - `init(self)` runs when the component is created
 - `update(self, dt)` runs every frame
 - `on_input(self, action_id, action)` receives input actions
 
-So remove the rest.
+You can safely ignore the remaining functions.
 
 <img src="doc/9.png">
 
 ## Initialize the script
 
-Inside the <kbd>`init()`</kbd> function we will initialize needed data and acquire input focus, so write:
+Inside the <kbd>`init()`</kbd> function we will initialize needed data and acquire input focus. Replace the init function with the following code:
 
 ```lua
 function init(self)
@@ -141,9 +140,9 @@ function init(self)
 end
 ```
 
-As you can see, here we have a very simple variables initialization. The <kbd>`self`</kbd> is an instance table that we have available in all lifecycle functions, so inside it we define <kbd>`direction`</kbd> as an empty 3-dimensional vector, and <kbd>`current_animation`</kbd> as our <kbd>`idle`</kbd> animation, but Defold doesn't operates on strings for animations, so we need to make it hashed.
+As you can see, here we have a very simple variables initialized. The <kbd>`self`</kbd> is an instance table that we have available in all lifecycle functions, so inside it we define <kbd>`direction`</kbd> as an empty 3-dimensional vector, and <kbd>`current_animation`</kbd> as our <kbd>`idle`</kbd> animation. Note that since Defold doesn't operate on strings for animations, we need to hash the string using the hash() function.
 
-Then we post a message to our current game object (shorthand <kbd>`"."`</kbd>) to <kbd>`acquire_input_focus`</kbd>, meaning, we will now get inputs in <kbd>`on_input`</kbd>.
+We then post a message to our current game object (shorthand <kbd>`"."`</kbd>) to <kbd>`acquire_input_focus`</kbd>, meaning we will now get inputs in <kbd>`on_input`</kbd>.
 
 ## Input bindings
 
@@ -154,7 +153,7 @@ Input bindings are already prepared in ["/input/game.input_binding"](defold://op
 - `up`
 - `down`
 
-And those are assigned to the arrow keys. You can look at this, but it's optional now, all is already set up.
+...Which are assigned to the arrow keys.
 
 <img src="doc/10.png">
 
@@ -177,7 +176,7 @@ function on_input(self, action_id, action)
 end
 ```
 
-We simply compare here the current <kbd>action_id</kbd> with each of the ones defined in input bindings as <kbd>`actions`</kbd> and modify the <kbd>`direction`</kbd> vector. Each active input action updates one part of the direction vector. If two keys are held at the same time, both axis can be set, which gives diagonal movement.
+We simply compare the current <kbd>action_id</kbd> with each of the ones defined in input bindings as <kbd>`actions`</kbd> and modify the <kbd>`direction`</kbd> vector. Each active input action updates one part of the direction vector. If two keys are held at the same time, both axes can be set, which gives diagonal movement.
 
 ### Move the game object every frame
 
@@ -199,11 +198,11 @@ function update(self, dt)
 end
 ```
 
-Comments in the code should explain what we are doing here, so read them carefully. We calculate the new position based on the simple physics movement formula, by taking our current direction vector, that we modify by our inputs, multiplying it by 150, which is the speed value, and then by delta time, which is an amount of a time that passed since last frame update.
+Comments in the code should explain what we are doing here, so read them carefully. We calculate the new position based on the simple physics movement formula, by taking our current direction vector, that we modify by our inputs, multiplying it by 150, which is the speed value, and then by delta time, which is the amount of time that has passed since the last frame update.
 
 You can save it, [build and run the project](defold://project.build).
 
-You are now able to move around, but beside lacking animations, the movement, while holding two keys to move diagonally is too fast, because the direction is not normalized. To fix it, add on the top of our current update function, this code fragment:
+You are now able to move around, but besides lacking animations, the movement, while holding two keys to move diagonally is too fast, because the direction is not normalized. To fix it, add on the top of our current update function, this code fragment:
 
 ```lua
 	if vmath.length_sqr(self.direction) > 1 then
@@ -215,7 +214,7 @@ Save and [test the project](defold://project.build).
 
 The diagonal movement is now normalized, so it is not faster than straight movement.
 
-The `150` in the update function is a speed value - such paramaters are good to be defined in the top of the file as local variables:
+The `150` in the update function is a speed value - such parameters are good to be defined in the top of the file as local variables:
 
 ```lua
 local speed = 150
@@ -235,7 +234,7 @@ Play with the speed value to adjust the speed of the movement of the character t
 
 The character moves now, but the sprite still stays in the <kbd>`idle`</kbd> animation.
 
-To fix it add at the end of our <kbd>`update()`</kbd> function, after setting the position, but just before reseting the direction, this fragment:
+To fix it add at the end of our <kbd>`update()`</kbd> function, after setting the position, but just before resetting the direction, this fragment:
 
 ```lua
 	-- Initialize a local variable to decide which animation we should play:
@@ -267,7 +266,7 @@ Read the comments to understand what the code does. Because we track the current
 
 ## Limiting the movement space
 
-You'll quickly notice, that we can "stand" on the decorations, like rocks or walls in the tilemap, and we can even move out of the map! You could fix this by checking collisions, and setting up the walls and obstacles collision shapes, but that's for the other tutorial! Right now, let's simply limit the movement, by adding those two lines just before setting the new position in the update loop:
+You'll quickly notice that we can "stand" on the decorations, like rocks or walls in the tilemap, and we can even move out of the map! You could fix this by checking collisions, and setting up the walls and obstacles collision shapes, but that's for another tutorial! Right now, let's simply limit the movement, by adding those two lines just before setting the new position in the update loop:
 
 ```lua
 	-- Limit the position inside a rectangle:
@@ -354,7 +353,7 @@ Also, you can checkout to the `tutorial-done` branch to see the final version of
 
 And that's the end of the tutorial!
 
-## Excercises
+## Exercises
 
 You can try the following excersises next:
 
@@ -365,11 +364,11 @@ Make the camera follow the character with a quick trick:
 1. Open the ["main.collection"](defold://open?path=/main/main.collection).
 2. In the `Outline` drag and drop the <kbd>camera</kbd> game object beneath the <kbd>character</kbd> game object.
 
-This creates a parent-child relationship. Because camera was set to be in the (320,190,10) position in the world, it's now also like this, but related to the `character` position, so modify the position of the `camera` to (0,0,10).
+This creates a parent-child relationship. Because the camera was set to be in the (320,190,10) position in the world, it's now also like this, but related to the `character` position, so modify the position of the `camera` to (0,0,10).
 
 <img src="doc/camera.png">
 
-Try the game - now camera strictly follows our character!
+Try the game - now the camera strictly follows our character!
 
 ### Add WSAD controls
 
@@ -380,7 +379,7 @@ Optionally, if you would like also to control your character with the commonly u
 3. Click in the <kbd>Input</kbd> column, type <kbd>`W`</kbd> key to find this input
 4. Type <kbd>`up`</kbd> in the <kbd>Action</kbd> column.
 
-Then repeat it for the rest of the keys. Make sure the action names matches the ones defined already, as we will be using those in the code. Read more about [inputs here](https://defold.com/manuals/input/).
+Then repeat it for the rest of the keys. Make sure the action names matche the ones defined already, as we will be using those in the code. Read more about [inputs here](https://defold.com/manuals/input/).
 
 ### Enlarge the level
 
